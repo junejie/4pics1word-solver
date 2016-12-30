@@ -1,31 +1,27 @@
 import sys
 
-
 expected_len = int(sys.argv[2])
+valid_letters = sys.argv[1]
 words = []
 words_step_2 = []
-valid_letters = sys.argv[1]
 valid_letters_array = []
+words_with_multi_letter = []
 for v in valid_letters:
     valid_letters_array.append(v)
-
-step_4_to_remove = []
 
 #init value
 tx_valid_letters_array = valid_letters_array
 
-def temp_update(startindex=None,tx_valid_letters_array=None):
-    tmp  = None
+def update_given_letters(startindex=None,tx_valid_letters_array=None):
+    result  = None
     if startindex is not None:
         del tx_valid_letters_array[startindex]
-        tmp = tx_valid_letters_array
+        result = tx_valid_letters_array
     else:
-        tmp = tx_valid_letters_array
-    return tmp
+        result = tx_valid_letters_array
+    return result
 
 with open('words.txt') as file:
-# with open('words.txt') as file:
-# with open('words_sample.txt') as file:
     start = 0
     for line in file:
         line_no_enter = line.strip('\n')
@@ -34,58 +30,44 @@ with open('words.txt') as file:
             start =start+1
     print 'found',len(words), 'words with', expected_len, 'chars'
 
-
     # letter count is ok but letter match is wrong
     step_2 = 0
     word_to_remove = []
     for word in words:
         t_valid_letters_array = valid_letters_array
-        last = False
         for letter in word:
             foundLetter = letter in t_valid_letters_array
-            print '--',foundLetter
             if foundLetter == False:
                 word_to_remove.append(word)
 
-    print 'invalid:', word_to_remove
-
-
     # check letter dupplication
-    # step 3
-    print 'step 3....'
     newWordSet = set(words) ^ set(word_to_remove)
 
     # start letter by letter
-    for n in newWordSet:
-
+    for word in newWordSet:
         valid_letters_array = []
-        for v in valid_letters:
-            valid_letters_array.append(v)
+        for valid_letter in valid_letters:
+            valid_letters_array.append(valid_letter)
 
         tx_valid_letters_array = valid_letters_array
-        # print 'valid_letters_array',valid_letters_array
-        # print '----------------'*5,'word;',n
-        for ltr_in_word in n:
-            # print '--find letter',ltr_in_word, 'in', temp_update(None,tx_valid_letters_array)
-
+        for ltr_in_word in word:
             # check if no more available letter in array choices
             # means naubusan ng letter
             # use simple if
-            basicCheck = ltr_in_word in temp_update(None,tx_valid_letters_array)
-            if basicCheck:
+            ltr_not_available = ltr_in_word in update_given_letters(None,tx_valid_letters_array)
+            if ltr_not_available:
                 startindex = 0
-                for v in temp_update(None,tx_valid_letters_array):
-                    if ltr_in_word == v:
-                        # print '--found in', startindex, 'index', startindex ,'to be remove'
+                for given_letter in update_given_letters(None,tx_valid_letters_array):
+                    if ltr_in_word == given_letter:
                         # do remove
-                        temp_update(startindex,tx_valid_letters_array)
+                        update_given_letters(startindex,tx_valid_letters_array)
                         break;
                     startindex = startindex+1
             else:
-                step_4_to_remove.append(n)
+                words_with_multi_letter.append(word)
 
     print '--'*50
-    result = set(newWordSet) ^ set(step_4_to_remove)
-    for a in result:
-        print a
+    result = set(newWordSet) ^ set(words_with_multi_letter)
+    for words in result:
+        print words
     print '--'*50
