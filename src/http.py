@@ -53,13 +53,20 @@ class httpHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.end_headers()
             F = Find()
-            result = F.find_words(form["word"].value, form["count"].value)
-            rows = ''.join([ '<tr><td>'+str(r)+'</td></tr>' for r in result])
-            table = """
-                <table border='0'>
-                    %s
-                </table>
-                <a href="/">Back</a>
-            """ % (rows)
-            self.wfile.write(table)
+            if 'word' in form and 'count' in form:
+                result = F.find_words(form["word"].value, form["count"].value)
+                rows = ''.join([ '<tr><td>'+str(r)+'</td></tr>' for r in result])
+                table = """
+                    <table border='0'>
+                        %s
+                    </table>
+                    <a href="/">Back</a>
+                """ % (rows)
+                self.wfile.write(table)
+            else:
+                error = """
+                    <p>Failed to Proccess</p>
+                    <a href="/">Back</a>
+                """
+                self.wfile.write(error)
             return
