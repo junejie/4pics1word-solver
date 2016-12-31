@@ -14,8 +14,8 @@ class Find():
         return result
 
     def find_words(self, valid_letters, expected_len):
-        print 'processing...', valid_letters
-        print 'processing...', expected_len
+        print('processing...', valid_letters)
+        print('processing...', expected_len)
         expected_len = int(expected_len)
         words = []
         words_step_2 = []
@@ -33,7 +33,7 @@ class Find():
                 if len( line_no_enter ) == expected_len:
                     words.append(line_no_enter)
                     start =start+1
-            print 'found',len(words), 'words with', expected_len, 'chars'
+            print('found',len(words), 'words with', expected_len, 'chars')
 
             # letter count is ok but letter match is wrong
             step_2 = 0
@@ -71,8 +71,8 @@ class Find():
                     else:
                         words_with_multi_letter.append(word)
 
-            print '--'*50
+            print('--'*50)
             result = set(newWordSet) ^ set(words_with_multi_letter)
-            print result
+            print(result)
             return result
 

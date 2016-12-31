@@ -1,6 +1,6 @@
 import cgi
 from .find import Find
-from BaseHTTPServer import BaseHTTPRequestHandler
+from http.server import BaseHTTPRequestHandler
 
 class httpHandler(BaseHTTPRequestHandler):
     
@@ -37,8 +37,7 @@ class httpHandler(BaseHTTPRequestHandler):
             </div>
         </form>
         """
-        self.wfile.write(html)
-        return
+        self.wfile.write(bytes(html,"utf-8"))
 
     #Handler for the POST requests
     def do_POST(self):
@@ -62,11 +61,11 @@ class httpHandler(BaseHTTPRequestHandler):
                     </table>
                     <a href="/">Back</a>
                 """ % (rows)
-                self.wfile.write(table)
+                self.wfile.write(bytes(table,"utf-8"))
             else:
                 error = """
                     <p>Failed to Proccess</p>
                     <a href="/">Back</a>
                 """
-                self.wfile.write(error)
+                self.wfile.write(bytes(error,"utf-8"))
             return

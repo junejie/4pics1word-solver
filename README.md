@@ -1,4 +1,4 @@
-Tested in python 2.7.10
+Tested in python 3.5.x
 
 Run
 
