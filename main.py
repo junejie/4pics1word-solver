@@ -1,9 +1,7 @@
-import sys
 from BaseHTTPServer import HTTPServer
 from src.http import httpHandler
 
 PORT_NUMBER = 8082
-
 
 try:
     #Create a web server and define the handler to manage the

@@ -54,5 +54,12 @@ class httpHandler(BaseHTTPRequestHandler):
             self.end_headers()
             F = Find()
             result = F.find_words(form["word"].value, form["count"].value)
-            self.wfile.write(result)
+            rows = ''.join([ '<tr><td>'+str(r)+'</td></tr>' for r in result])
+            table = """
+                <table border='0'>
+                    %s
+                </table>
+                <a href="/">Back</a>
+            """ % (rows)
+            self.wfile.write(table)
             return
